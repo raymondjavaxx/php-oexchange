@@ -1,7 +1,7 @@
 OExchange PHP Library
 =====================
 
-PHP-OExchange is a PHP5 library for playing with [OExchange]([http://www.oexchange.org/) enabled services.
+PHP-OExchange is a PHP5 library for playing with [OExchange](http://www.oexchange.org/) enabled services.
 
 Basic Usage:
 
