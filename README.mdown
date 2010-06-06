@@ -1,0 +1,13 @@
+OExchange PHP Library
+=====================
+
+PHP-OExchange is a PHP5 library for playing with [OExchange]([http://www.oexchange.org/) enabled services.
+
+Basic Usage:
+
+	<?php
+	require 'OExchange.php';
+	$services = OExchange_Target::discover('http://www.addthis.com/');
+	print_r($services);
+
+
