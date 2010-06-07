@@ -10,5 +10,5 @@ require_once OEXCHANGE_INCLUDE_PATH . '/XRD/Property.php';
 require_once OEXCHANGE_INCLUDE_PATH . '/XRD/Exception.php';
 require_once OEXCHANGE_INCLUDE_PATH . '/OExchange/Target.php';
 
-//$services = OExchange_Target::discover('http://www.addthis.com/');
+//$services = OExchange_Target::discover('www.addthis.com');
 //print_r($services);

@@ -13,7 +13,7 @@
  */
 
 /**
- * OExchange Service class
+ * OExchange Target
  *
  * @package OExchange
  */
@@ -27,7 +27,7 @@ class OExchange_Target {
 	const OEXCHAGE_PROMPT_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/prompt';
 
 	/**
-	 * undocumented variable
+	 * Human-readable long title
 	 *
 	 * @var string
 	 */
@@ -55,7 +55,7 @@ class OExchange_Target {
 	public $name;
 
 	/**
-	 * undocumented variable
+	 * Human-readable call to action for sending links to this target
 	 *
 	 * @var string
 	 */
@@ -69,7 +69,7 @@ class OExchange_Target {
 	public $icon;
 
 	/**
-	 * mime type of service icon
+	 * Internet media type of service icon
 	 *
 	 * @var string
 	 */
@@ -83,35 +83,36 @@ class OExchange_Target {
 	public $icon32;
 
 	/**
-	 * mime type of 32x32 service icon
+	 * Internet media type of 32x32 icon
 	 *
 	 * @var string
 	 */
 	public $icon32Type;
 
 	/**
-	 * undocumented function
+	 * Performs a Host Discovery flow on a given host and returns a
+	 * list of available Targets.
 	 *
-	 * @param string $url 
+	 * @param string $host 
 	 * @return array
 	 */
-	public static function discover($url) {
-		$xrdUrl = rtrim($url, '/') . '/.well-known/host-meta';
+	public static function discover($host) {
+		$xrdUrl = 'http://' . rtrim($host, '/') . '/.well-known/host-meta';
 
 		//TODO: use php-curl
 		$xrd = XRD_Document::fromString(file_get_contents($xrdUrl));
 
-		$services = array();
+		$targets = array();
 
 		foreach ($xrd->linksByRel(self::OEXCHANGE_REL) as $link) {
 			try {
 				$serviceXRD = XRD_Document::fromString(file_get_contents($link->href));
-				$services[] = self::fromXRD($serviceXRD);
+				$targets[] = self::fromXRD($serviceXRD);
 			} catch (XRD_Exception $e) {
 			}
 		}
 
-		return $services;
+		return $targets;
 	}
 
 	/**

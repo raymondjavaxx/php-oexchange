@@ -7,7 +7,7 @@ Basic Usage:
 
 	<?php
 	require 'OExchange.php';
-	$services = OExchange_Target::discover('http://www.addthis.com/');
+	$services = OExchange_Target::discover('www.addthis.com');
 	print_r($services);
 
 
