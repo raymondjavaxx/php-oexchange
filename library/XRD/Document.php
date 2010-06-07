@@ -19,6 +19,13 @@
  */
 class XRD_Document {
 
+	const XRD_NAMESPACE = 'http://docs.oasis-open.org/ns/xri/xrd-1.0';
+
+	/**
+	 * undocumented variable
+	 *
+	 * @var string
+	 */
 	public $subject;
 
 	/**
@@ -42,7 +49,7 @@ class XRD_Document {
 	 */
 	public function toXML() {
 		$dom = new DOMDocument('1.0', 'UTF-8');
-		$xrdNode = $dom->appendChild(new DOMElement('XRD'));
+		$xrdNode = $dom->appendChild(new DOMElement('XRD', null, self::XRD_NAMESPACE));
 		$xrdNode->appendChild(new DOMElement('Subject', $this->subject));
 
 		foreach ($this->links as $link) {
