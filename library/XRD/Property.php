@@ -33,6 +33,11 @@ class XRD_Property {
 	 */
 	public $value;
 
+	public function __construct($type = null, $value = null) {
+		$this->type = $type;
+		$this->value = $value;
+	}
+
 	/**
 	 * undocumented function
 	 *
@@ -41,7 +46,6 @@ class XRD_Property {
 	 */
 	public static function fromDOMNode(DOMNode $node) {
 		$property = new XRD_Property;
-
 		$property->type = $node->attributes->getNamedItem('type')->value;
 		$property->value = $node->textContent;
 

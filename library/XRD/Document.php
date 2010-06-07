@@ -36,6 +36,35 @@ class XRD_Document {
 	public $properties = array();
 
 	/**
+	 * undocumented function
+	 *
+	 * @return string
+	 */
+	public function toXML() {
+		$dom = new DOMDocument('1.0', 'UTF-8');
+		$xrdNode = $dom->appendChild(new DOMElement('XRD'));
+		$xrdNode->appendChild(new DOMElement('Subject', $this->subject));
+
+		foreach ($this->links as $link) {
+			$linkNode = $xrdNode->appendChild(new DOMElement('Link'));;
+			$linkNode->setAttribute('rel', $link->rel);
+			$linkNode->setAttribute('href', $link->href);
+			if ($link->template) {
+				$linkNode->setAttribute('template', $link->template);
+			} else {
+				$linkNode->setAttribute('type', $link->type);
+			}
+		}
+
+		foreach ($this->properties as $property) {
+			$linkNode = $xrdNode->appendChild(new DOMElement('Property', $property->value));;
+			$linkNode->setAttribute('type', $property->type);
+		}
+
+		return $dom->saveXML();
+	}
+
+	/**
 	 * Loads an XRD document from string
 	 *
 	 * @param string $xrdString 
@@ -43,7 +72,7 @@ class XRD_Document {
 	 * @throws XRD_Exception
 	 */
 	public static function fromString($xrdString) {
-		$dom = new DOMDocument();
+		$dom = new DOMDocument;
 		if (!$dom->loadXml($xrdString)) {
 			throw new XRD_Exception("Could not load XRD from string");
 		}

@@ -48,6 +48,17 @@ class XRD_Link {
 	public $template;
 
 	/**
+	 * Contructor
+	 *
+	 * @param array $attributes 
+	 */
+	public function __construct($attributes = array()) {
+		foreach ($attributes as $name => $value) {
+			$this->{$name} = $value;
+		}
+	}
+
+	/**
 	 * undocumented function
 	 *
 	 * @param DOMNode $node 

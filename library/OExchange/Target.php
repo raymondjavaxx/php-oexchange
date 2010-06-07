@@ -90,6 +90,17 @@ class OExchange_Target {
 	public $icon32Type;
 
 	/**
+	 * Contructor
+	 *
+	 * @param array $data 
+	 */
+	public function __construct($data = array()) {
+		foreach ($data as $key => $value) {
+			$this->{$key} = $value;
+		}
+	}
+
+	/**
 	 * Performs a Host Discovery flow on a given host and returns a
 	 * list of available Targets.
 	 *
@@ -145,5 +156,31 @@ class OExchange_Target {
 		}
 
 		return $service;
+	}
+
+	public function toXRD() {
+		$xrd = new XRD_Document;
+		$xrd->subject = $this->offer;
+
+		$xrd->links[] = new XRD_Link(array(
+			'rel'  => 'icon',
+			'href' => $this->icon,
+			'type' => $this->iconType
+		));
+
+		if ($this->icon32) {
+			$xrd->links[] = new XRD_Link(array(
+				'rel'  => 'icon32',
+				'href' => $this->icon32,
+				'type' => $this->icon32Type
+			));
+		}
+
+		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_TITLE_PROPERTY_TYPE, $this->title);
+		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_VENDOR_PROPERTY_TYPE, $this->vendor);
+		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_NAME_PROPERTY_TYPE, $this->name);
+		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_PROMPT_PROPERTY_TYPE, $this->prompt);
+
+		return $xrd;
 	}
 }
