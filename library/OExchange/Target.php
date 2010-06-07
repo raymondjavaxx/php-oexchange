@@ -20,11 +20,12 @@
 class OExchange_Target {
 
 	const OEXCHANGE_REL = 'http://oexchange.org/spec/0.8/rel/resident-target';
+	const OEXCHANGE_OFFER_REL = 'http://www.oexchange.org/spec/0.8/rel/offer';
 
-	const OEXCHAGE_TITLE_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/title';
-	const OEXCHAGE_VENDOR_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/vendor';
-	const OEXCHAGE_NAME_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/name';
-	const OEXCHAGE_PROMPT_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/prompt';
+	const OEXCHANGE_TITLE_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/title';
+	const OEXCHANGE_VENDOR_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/vendor';
+	const OEXCHANGE_NAME_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/name';
+	const OEXCHANGE_PROMPT_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/prompt';
 
 	/**
 	 * Human-readable long title
@@ -34,11 +35,25 @@ class OExchange_Target {
 	public $title;
 
 	/**
+	 * undocumented variable
+	 *
+	 * @var string
+	 */
+	public $subject;
+
+	/**
 	 * OExchange offer endpoint
 	 *
 	 * @var string
 	 */
 	public $offer;
+
+	/**
+	 * undocumented variable
+	 *
+	 * @var string
+	 */
+	public $offerType;
 
 	/**
 	 * Name of service vendor
@@ -134,7 +149,7 @@ class OExchange_Target {
 	 */
 	public static function fromXRD(XRD_Document $xrd) {
 		$service = new OExchange_Target;
-		$service->offer = $xrd->subject;
+		$service->subject = $xrd->subject;
 
 		$iconLink = $xrd->firstLinkByRel('icon');
 		$service->icon = $iconLink->href;
@@ -144,11 +159,15 @@ class OExchange_Target {
 		$service->icon32 = $icon32Link->href;
 		$service->icon32Type = $icon32Link->type;
 
+		$offerLink = $xrd->firstLinkByRel(self::OEXCHANGE_OFFER_REL);
+		$service->offer = $offerLink->href;
+		$service->offerType = $offerLink->type;
+
 		$propertyMap = array(
-			'title'  => self::OEXCHAGE_TITLE_PROPERTY_TYPE,
-			'vendor' => self::OEXCHAGE_VENDOR_PROPERTY_TYPE,
-			'name'   => self::OEXCHAGE_NAME_PROPERTY_TYPE,
-			'prompt' => self::OEXCHAGE_PROMPT_PROPERTY_TYPE
+			'title'  => self::OEXCHANGE_TITLE_PROPERTY_TYPE,
+			'vendor' => self::OEXCHANGE_VENDOR_PROPERTY_TYPE,
+			'name'   => self::OEXCHANGE_NAME_PROPERTY_TYPE,
+			'prompt' => self::OEXCHANGE_PROMPT_PROPERTY_TYPE
 		);
 
 		foreach ($propertyMap as $propertyName => $propertyType) {
@@ -160,7 +179,13 @@ class OExchange_Target {
 
 	public function toXRD() {
 		$xrd = new XRD_Document;
-		$xrd->subject = $this->offer;
+		$xrd->subject = $this->subject;
+
+		$xrd->links[] = new XRD_Link(array(
+			'rel'  => self::OEXCHANGE_OFFER_REL,
+			'href' => $this->offer,
+			'type' => $this->offerType
+		));
 
 		$xrd->links[] = new XRD_Link(array(
 			'rel'  => 'icon',
@@ -176,10 +201,10 @@ class OExchange_Target {
 			));
 		}
 
-		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_TITLE_PROPERTY_TYPE, $this->title);
-		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_VENDOR_PROPERTY_TYPE, $this->vendor);
-		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_NAME_PROPERTY_TYPE, $this->name);
-		$xrd->properties[] = new XRD_Property(self::OEXCHAGE_PROMPT_PROPERTY_TYPE, $this->prompt);
+		$xrd->properties[] = new XRD_Property(self::OEXCHANGE_TITLE_PROPERTY_TYPE, $this->title);
+		$xrd->properties[] = new XRD_Property(self::OEXCHANGE_VENDOR_PROPERTY_TYPE, $this->vendor);
+		$xrd->properties[] = new XRD_Property(self::OEXCHANGE_NAME_PROPERTY_TYPE, $this->name);
+		$xrd->properties[] = new XRD_Property(self::OEXCHANGE_PROMPT_PROPERTY_TYPE, $this->prompt);
 
 		return $xrd;
 	}

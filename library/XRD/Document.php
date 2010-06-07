@@ -51,7 +51,7 @@ class XRD_Document {
 			$linkNode->setAttribute('href', $link->href);
 			if ($link->template) {
 				$linkNode->setAttribute('template', $link->template);
-			} else {
+			} else if ($link->type) {
 				$linkNode->setAttribute('type', $link->type);
 			}
 		}
