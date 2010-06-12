@@ -9,6 +9,4 @@ require_once OEXCHANGE_INCLUDE_PATH . '/XRD/Link.php';
 require_once OEXCHANGE_INCLUDE_PATH . '/XRD/Property.php';
 require_once OEXCHANGE_INCLUDE_PATH . '/XRD/Exception.php';
 require_once OEXCHANGE_INCLUDE_PATH . '/OExchange/Target.php';
-
-//$services = OExchange_Target::discover('www.addthis.com');
-//print_r($services);
+require_once OEXCHANGE_INCLUDE_PATH . '/OExchange/Exception.php';

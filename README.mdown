@@ -9,6 +9,11 @@ Basic Usage:
 	$targets = OExchange_Target::discover('www.addthis.com');
 	print_r($targets);
 
+[Page Discovery](http://www.oexchange.org/spec/#discovery-page) can also be performed by calling OExchange_Target::pageDiscovery()
+
+	$targets = OExchange_Target::pageDiscovery('http://2tag.nl/');
+	print_r($targets);
+
 The library can also be used to generate Target XRD documents:
 
 	$target = new OExchange_Target(array(
