@@ -5,9 +5,21 @@ PHP-OExchange is a PHP5 library for playing with [OExchange](http://www.oexchang
 
 Basic Usage:
 
-	<?php
 	require 'OExchange.php';
-	$services = OExchange_Target::discover('www.addthis.com');
-	print_r($services);
+	$targets = OExchange_Target::discover('www.addthis.com');
+	print_r($targets);
 
+The library can also be used to generate Target XRD documents:
 
+	$target = new OExchange_Target(array(
+		'name'     => 'CoolService',
+		'title'    => 'A cool service that accepts URLs',
+		'subject'  => 'http://www.example.org/coolservice',
+		'vendor'   => 'Examples Inc',
+		'prompt'   => 'Share to CoolService',
+		'offer'    => 'http://www.example.com/coolservice/offer.php',
+		'icon'     => 'http://www.example.com/assets/icon.png',
+		'icon32'   => 'http://www.example.com/assets/icon32.png',
+	));
+	
+	echo $target->toXRD()->toXML();

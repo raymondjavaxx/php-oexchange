@@ -110,6 +110,15 @@ class OExchange_Target {
 	 * @param array $data 
 	 */
 	public function __construct($data = array()) {
+		if (!empty($data)) {
+			$defaults = array(
+				'offerType' => 'text/html',
+				'iconType' => 'image/png',
+				'icon32Type' => 'image/png'
+			);
+			$data = array_merge($defaults, $data);
+		}
+
 		foreach ($data as $key => $value) {
 			$this->{$key} = $value;
 		}
