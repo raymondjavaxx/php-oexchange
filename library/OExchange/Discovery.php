@@ -67,7 +67,7 @@ class OExchange_Discovery {
 	
 		$targets = array();
 		foreach ($links as $link) {
-			$serviceXRD = XRD_Document::fromString(file_get_contents($link->getAttribute('href')));
+			$serviceXRD = XRD_Document::fromString(self::_retrieve($link->getAttribute('href')));
 			$targets[] = OExchange_Target::fromXRD($serviceXRD);
 		}
 
