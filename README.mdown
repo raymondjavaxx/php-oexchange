@@ -9,7 +9,7 @@ Basic Usage:
 	$targets = OExchange_Discovery::host('www.oexchange.org');
 	print_r($targets);
 
-[Page Discovery](http://www.oexchange.org/spec/#discovery-page) can also be performed by calling OExchange_Target::pageDiscovery()
+[Page Discovery](http://www.oexchange.org/spec/#discovery-page) can also be performed by calling OExchange_Discovery::page()
 
 	$targets = OExchange_Discovery::page('http://www.oexchange.org/demo/blog/');
 	print_r($targets);
