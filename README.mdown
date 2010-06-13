@@ -6,12 +6,12 @@ PHP-OExchange is a PHP5 library for playing with [OExchange](http://www.oexchang
 Basic Usage:
 
 	require 'OExchange.php';
-	$targets = OExchange_Target::discover('www.addthis.com');
+	$targets = OExchange_Discovery::host('www.oexchange.org');
 	print_r($targets);
 
 [Page Discovery](http://www.oexchange.org/spec/#discovery-page) can also be performed by calling OExchange_Target::pageDiscovery()
 
-	$targets = OExchange_Target::pageDiscovery('http://2tag.nl/');
+	$targets = OExchange_Discovery::page('http://www.oexchange.org/demo/blog/');
 	print_r($targets);
 
 The library can also be used to generate Target XRD documents:

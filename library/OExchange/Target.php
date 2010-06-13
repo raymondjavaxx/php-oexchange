@@ -19,9 +19,7 @@
  */
 class OExchange_Target {
 
-	const OEXCHANGE_REL = 'http://oexchange.org/spec/0.8/rel/resident-target';
 	const OEXCHANGE_OFFER_REL = 'http://www.oexchange.org/spec/0.8/rel/offer';
-	const OEXCHANGE_RELATED_TARGET_REL = 'http://oexchange.org/spec/0.8/rel/related-target';
 
 	const OEXCHANGE_TITLE_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/title';
 	const OEXCHANGE_VENDOR_PROPERTY_TYPE = 'http://www.oexchange.org/spec/0.8/prop/vendor';
@@ -123,53 +121,6 @@ class OExchange_Target {
 		foreach ($data as $key => $value) {
 			$this->{$key} = $value;
 		}
-	}
-
-	/**
-	 * Performs a Host Discovery flow on a given host and returns a
-	 * list of available Targets.
-	 *
-	 * @param string $host 
-	 * @return array
-	 */
-	public static function discover($host) {
-		$xrdUrl = 'http://' . rtrim($host, '/') . '/.well-known/host-meta';
-
-		//TODO: use php-curl
-		$xrd = XRD_Document::fromString(file_get_contents($xrdUrl));
-
-		$targets = array();
-
-		foreach ($xrd->linksByRel(self::OEXCHANGE_REL) as $link) {
-			try {
-				$serviceXRD = XRD_Document::fromString(file_get_contents($link->href));
-				$targets[] = self::fromXRD($serviceXRD);
-			} catch (XRD_Exception $e) {
-			}
-		}
-
-		return $targets;
-	}
-
-	public static function pageDiscovery($url) {
-		$htmlDocument = new DOMDocument();
-		$loaded = @$htmlDocument->loadHTMLFile($url);
-		if (!$loaded) {
-			throw new OExchange_Exception("Failed to load {$url}");
-		}
-
-		$xpath = new DOMXpath($htmlDocument);
-
-		$expression = "/html/head/link[@rel='" . self::OEXCHANGE_RELATED_TARGET_REL . "']";
-		$links = $xpath->query($expression);
-	
-		$targets = array();
-		foreach ($links as $link) {
-			$serviceXRD = XRD_Document::fromString(file_get_contents($link->getAttribute('href')));
-			$targets[] = self::fromXRD($serviceXRD);
-		}
-
-		return $targets;
 	}
 
 	/**
